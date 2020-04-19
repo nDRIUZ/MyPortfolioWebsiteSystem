@@ -12,6 +12,12 @@ using MyPortfolioWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using MyPortfolioWeb.Contracts;
+using MyPortfolioWeb.Repository;
+using MyPortfolioWeb.Mappings;
+using AutoMapper;
 
 namespace MyPortfolioWeb
 {
@@ -30,14 +36,24 @@ namespace MyPortfolioWeb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // Add Repositories and Contracts
+            services.AddScoped<ISettingRepository, SettingRepository>();
+            services.AddScoped<IWelcomePageRepository, WelcomePageRepository>();
+            services.AddScoped<ISkillRepository, SkillRepository>();
+            // Enable maps, AutoMapper
+            services.AddAutoMapper(typeof(Maps));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+            IWebHostEnvironment env,
+            UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +73,9 @@ namespace MyPortfolioWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Calling seed class
+            SeedData.Seed(userManager);
 
             app.UseEndpoints(endpoints =>
             {

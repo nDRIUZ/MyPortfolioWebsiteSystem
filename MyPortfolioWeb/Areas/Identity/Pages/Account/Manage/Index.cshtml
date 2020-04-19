@@ -1,0 +1,47 @@
+﻿@page "/Admin"
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-12">
+        <p class="bg-warning px-2">Change your email to enable contact forms in portfolio!</p>
+        <form id="profile-form" class="col-md-5" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.FullName"></label>
+                <input asp-for="Input.FullName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ResumeLink"></label>
+                <input asp-for="Input.ResumeLink" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FacebookLink"></label>
+                <input asp-for="Input.FacebookLink" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.InstaLink"></label>
+                <input asp-for="Input.InstaLink" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LinkedInLink"></label>
+                <input asp-for="Input.LinkedInLink" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.TwitterLink"></label>
+                <input asp-for="Input.TwitterLink" class="form-control" />
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <small>If you do not want to use any of the links, please leave empty field</small>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

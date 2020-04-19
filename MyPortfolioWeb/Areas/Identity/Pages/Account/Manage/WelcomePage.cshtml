@@ -1,0 +1,45 @@
+﻿@page "/Admin/WelcomePage"
+@model WelcomePageModel
+@{
+    ViewData["Title"] = "Customize welcome page";
+    ViewData["ActivePage"] = ManageNavPages.WelcomePage;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+@if (ViewData["imageLink"] != null)
+{
+    <img src="~/images/@ViewData["imageLink"]" alt="@ViewData["imageLink"]" width="200" />
+    <br />
+    <form asp-page-handler="Delete" method="post">
+    <button onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete image</button>
+    <input type="hidden" name="id" value="@ViewData["imageId"]" />
+    </form>
+}
+        <div class="row">
+            <div class="col-md-6">
+                <form id="welcome-page-form" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Img"></label>
+                        <input asp-for="Input.Img" type="file" class="form-control" />
+                        <span asp-validation-for="Input.Img" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.WelcomeWorkingTitle"></label>
+                        <input asp-for="Input.WelcomeWorkingTitle" class="form-control" />
+                        <span asp-validation-for="Input.WelcomeWorkingTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.WelcomeText"></label>
+                        <input asp-for="Input.WelcomeText" class="form-control" />
+                        <span asp-validation-for="Input.WelcomeText" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Page</button>
+                </form>
+            </div>
+        </div>
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
+        }

@@ -12,5 +12,8 @@ namespace MyPortfolioWeb.Data
             : base(options)
         {
         }
+            public DbSet<Setting> Settings { get; set; }
+            public DbSet<WelcomePage> WelcomePages { get; set; }
+            public DbSet<Skill> Skills { get; set; }
     }
 }

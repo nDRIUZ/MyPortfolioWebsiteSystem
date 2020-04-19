@@ -1,0 +1,68 @@
+﻿@page "/ALogin"
+@model LoginModel
+
+@{
+    Layout = "";
+    ViewData["Title"] = "Log in";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administrator @ViewData["Title"] - My Portfolio Website</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="vh-100 my-0">
+    <div class="container h-100">
+        <main role="main" class="h-100">
+
+            <div class="row h-100">
+                <div class="col-md-5 border py-2 px-4 my-auto mx-auto">
+                    <section>
+                        <form id="account" method="post">
+                            <h4>Administrator Log in</h4>
+                            <hr />
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.UserName"></label>
+                                <input asp-for="Input.UserName" class="form-control" />
+                                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.Password"></label>
+                                <input asp-for="Input.Password" class="form-control" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label asp-for="Input.RememberMe">
+                                        <input asp-for="Input.RememberMe" />
+                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <a id="forgot-password" asp-page="ForgotPassword">Forgot your password?</a>
+                                </p>
+                                <p>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index">Back to homepage</a>
+                                </p>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
