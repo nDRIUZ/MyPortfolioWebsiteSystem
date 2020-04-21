@@ -16,6 +16,8 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
 
         public static string WelcomePage => "WelcomePage";
         public static string Skills => "Skills";
+        public static string Experiences => "Experiences";
+        public static string Testimonials => "Testimonials";
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
@@ -23,6 +25,8 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
         public static string WelcomePageNavClass(ViewContext viewContext) => PageNavClass(viewContext, WelcomePage);
         public static string SkillsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Skills);
+        public static string ExperiencesClass(ViewContext viewContext) => PageNavClass(viewContext, Experiences);
+        public static string TestimonialsClass(ViewContext viewContext) => PageNavClass(viewContext, Testimonials);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

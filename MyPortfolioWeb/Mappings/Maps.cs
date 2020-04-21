@@ -15,6 +15,8 @@ namespace MyPortfolioWeb.Mappings
             CreateMap<Setting, SettingVM>().ReverseMap();
             CreateMap<WelcomePage, WelcomePageVM>().ReverseMap();
             CreateMap<Skill, SkillVM>().ReverseMap();
+            CreateMap<Experience, ExperienceVM>().ReverseMap();
+            CreateMap<Testimonial, TestimonialVM>().ReverseMap();
         }
     }
 }

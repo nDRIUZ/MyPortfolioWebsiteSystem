@@ -12,15 +12,15 @@ using MyPortfolioWeb.Models;
 
 namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
 {
-    public class SkillsModel : PageModel
+    public class ExperiencesModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ISkillRepository _repo;
+        private readonly IExperienceRepository _repo;
         private readonly IMapper _mapper;
 
-        public SkillsModel(
+        public ExperiencesModel(
             UserManager<IdentityUser> userManager,
-            ISkillRepository repo,
+            IExperienceRepository repo,
             IMapper mapper)
         {
             _userManager = userManager;
@@ -29,9 +29,9 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
         }
 
         [BindProperty]
-        public SkillVM Input { get; set; }
+        public ExperienceVM Input { get; set; }
 
-        public IOrderedEnumerable<Skill> Skills { get; set; }
+        public IOrderedEnumerable<Experience> Experiences { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -41,10 +41,10 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
             var getAll = await _repo.FindAll();
             if (getAll.Count > 0)
             {
-                var sendAll = getAll.OrderByDescending(p => p.SkillPercentage);
+                var sendAll = getAll.OrderByDescending(p => p.Current).ThenByDescending(p => p.EndDate);
                 if (sendAll != null)
                 {
-                    Skills = sendAll;
+                    Experiences = sendAll;
                 }
             }
         }
@@ -73,8 +73,11 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
                 await LoadAsync();
                 return Page();
             }
-
-                    var createInfo = _mapper.Map<Skill>(Input);
+                    if (Input.Current == true)
+            {
+                Input.EndDate = DateTime.Now;
+            }
+                    var createInfo = _mapper.Map<Experience>(Input);
                     var CreatedSuccess = await _repo.Create(createInfo);
                     if (!CreatedSuccess)
                     {
@@ -82,17 +85,17 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
                     }
 
 
-            StatusMessage = "Great! New skill!";
+            StatusMessage = "Your work experience added!";
             return RedirectToPage();
         }
         public async Task<IActionResult> OnPostDelete(int id)
         {
-            var skill = await _repo.FindById(id);
-            if (skill == null)
+            var toDel = await _repo.FindById(id);
+            if (toDel == null)
             {
                 return NotFound();
             }
-            await _repo.Delete(skill);
+            await _repo.Delete(toDel);
             return RedirectToPage();
         }
     }

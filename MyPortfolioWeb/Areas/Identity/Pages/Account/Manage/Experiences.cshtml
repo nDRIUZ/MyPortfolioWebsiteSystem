@@ -1,0 +1,107 @@
+﻿@page "/Admin/Experience"
+@model ExperiencesModel
+@{
+    ViewData["Title"] = "Add/Remove work experience";
+    ViewData["ActivePage"] = ManageNavPages.Experiences;
+    int counter = 0;
+    var now = DateTime.Now.ToShortDateString();
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="welcome-page-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.CompanyName"></label>
+                <input asp-for="Input.CompanyName" class="form-control" />
+                <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.JobTitle"></label>
+                <input asp-for="Input.JobTitle" class="form-control" />
+                <span asp-validation-for="Input.JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.StartDate"></label>
+                <input asp-for="Input.StartDate" class="form-control" />
+                <span asp-validation-for="Input.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Current"></label>
+                <input asp-for="Input.Current" class="form-control" onclick="myFunction()" />
+                <span asp-validation-for="Input.Current" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.EndDate"></label>
+                <input asp-for="Input.EndDate" class="form-control" />
+                <span asp-validation-for="Input.EndDate" class="text-danger"></span>
+                <input id="DateNow" value="@now" hidden>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Description"></label>
+                <input asp-for="Input.Description" class="form-control" />
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add new experience</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Experiences != null)
+{
+    <div class="row pt-2">
+        @foreach (var item in Model.Experiences)
+        {
+            if (counter != 0 && counter % 3 == 0)
+            {
+            @:</div>
+            @:<div class="row">
+            }
+            <div class="col-md-4">
+                <center>
+                    <h3>@item.CompanyName</h3>
+                    <h5>@item.JobTitle</h5>
+                        @if (@item.Current == true)
+                        {
+                            <b>Current</b>
+                        }
+                        else
+                        {
+                            <b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()</b>
+                        }
+                </center>
+                    <p>@item.Description</p>
+                    <center>
+                        <form asp-page-handler="Delete" method="post">
+                            <button onclick="return confirm('Are you sure you want to delete this experience?')" class="btn btn-danger btn-sm">Delete experience</button>
+                            <input type="hidden" name="id" value="@item.Id" />
+                        </form>
+                    </center>
+            </div>
+            counter++;
+        }
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            $("#Input_Current").click(function () {
+                if ($(this).is(':checked')) {
+                    $("#Input_EndDate").val($("#DateNow").val());
+                    $("#Input_EndDate").hide();
+                    $('label[for="Input_EndDate"]').hide();
+                } else {
+                    $("#Input_EndDate").val("");
+                    $('label[for="Input_EndDate"]').show();
+                    $("#Input_EndDate").show();
+                }
+            })
+        })
+    </script>
+}

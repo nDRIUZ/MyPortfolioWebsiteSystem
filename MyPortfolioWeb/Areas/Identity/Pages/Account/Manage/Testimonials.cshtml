@@ -1,0 +1,80 @@
+﻿@page "/Admin/Testimonials"
+@model TestimonialsModel
+@{
+    ViewData["Title"] = "Add/Remove Testimonials";
+    ViewData["ActivePage"] = ManageNavPages.Testimonials;
+    var counter = 0;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="welcome-page-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Date"></label>
+                <input asp-for="Input.Date" class="form-control" />
+                <span asp-validation-for="Input.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Text"></label>
+                <input asp-for="Input.Text" class="form-control" />
+                <span asp-validation-for="Input.Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Img"></label>
+                <input asp-for="Input.Img" class="form-control" type="file" />
+                <span asp-validation-for="Input.Img" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add new experience</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Testimonials != null)
+{
+    <div class="row pt-2">
+        @foreach (var item in Model.Testimonials)
+        {
+            if (counter != 0 && counter % 3 == 0)
+            {
+            @:</div>
+            @:<div class="row">
+            }
+            <div class="col-md-4">
+                <center>
+                    <h3>@item.Name</h3>
+                    <h5>@item.Date</h5>
+                    @if (@item.Img != null)
+                    {
+                        <img src="~/images/testimonials/@item.Img" class="w-100 rounded-circle">
+                    }
+                    else
+                    {
+                        <img src="~/images/testimonials/default.png" class="w-100 rounded-circle">
+                    }
+                </center>
+                <p>@item.Text</p>
+                <center>
+                    <form asp-page-handler="Delete" method="post">
+                        <button onclick="return confirm('Are you sure you want to delete this testimonial?')" class="btn btn-danger btn-sm">Delete testimonial</button>
+                        <input type="hidden" name="id" value="@item.Id" />
+                    </form>
+                </center>
+            </div>
+            counter++;
+        }
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -15,5 +15,7 @@ namespace MyPortfolioWeb.Data
             public DbSet<Setting> Settings { get; set; }
             public DbSet<WelcomePage> WelcomePages { get; set; }
             public DbSet<Skill> Skills { get; set; }
-    }
+            public DbSet<Experience> Experiences { get; set; }
+            public DbSet<Testimonial> Testimonials { get; set; }
+        }
 }

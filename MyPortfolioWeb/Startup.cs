@@ -43,6 +43,8 @@ namespace MyPortfolioWeb
             services.AddScoped<ISettingRepository, SettingRepository>();
             services.AddScoped<IWelcomePageRepository, WelcomePageRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            services.AddScoped<ITestimonialRepository, TestimonialRepository>();
             // Enable maps, AutoMapper
             services.AddAutoMapper(typeof(Maps));
 
