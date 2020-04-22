@@ -17,5 +17,7 @@ namespace MyPortfolioWeb.Data
             public DbSet<Skill> Skills { get; set; }
             public DbSet<Experience> Experiences { get; set; }
             public DbSet<Testimonial> Testimonials { get; set; }
-        }
+            public DbSet<Award> Awards { get; set; }
+            public DbSet<Portfolio> Portfolios { get; set; }
+    }
 }

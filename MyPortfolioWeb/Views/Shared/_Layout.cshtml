@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var menu = ViewData["Menu"];
+    var menuList = new List<string>();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,8 +25,38 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
+                        @foreach (string menuItem in (dynamic)(menu))
+                        {
+                            menuList.Add(menuItem);
+                        }
+
+                        @if (menuList.Contains("Skills") || menuList.Contains("Experiences"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#About">About</a>
+                            </li>
+                        }
+                        @if (menuList.Contains("Portfolios"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#Portfolio">Portfolio</a>
+                            </li>
+                        }
+                        @if (menuList.Contains("Awards"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#Awards">Awards and certifications</a>
+                            </li>
+                        }
+                        @if (menuList.Contains("Testimonials"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#Portfolio">Testimonials</a>
+                            </li>
+                        }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" href="#Contact">Contact</a>
                         </li>
                     </ul>
                 </div>

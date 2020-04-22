@@ -1,0 +1,80 @@
+﻿@page "/Admin/Portfolio"
+@model PortfolioModel
+@{
+    ViewData["Title"] = "Add/Remove item in portfolio";
+    ViewData["ActivePage"] = ManageNavPages.Portfolios;
+    var counter = 0;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="welcome-page-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.ProjectName"></label>
+                <input asp-for="Input.ProjectName" class="form-control" />
+                <span asp-validation-for="Input.ProjectName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Description"></label>
+                <input asp-for="Input.Description" class="form-control" />
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.DownloadLink"></label>
+                <input asp-for="Input.DownloadLink" class="form-control" />
+                <span asp-validation-for="Input.DownloadLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Img"></label>
+                <input asp-for="Input.Img" class="form-control" type="file" />
+                <span asp-validation-for="Input.Img" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LanguagesUsed"></label>
+                <input asp-for="Input.LanguagesUsed" class="form-control" />
+                <span asp-validation-for="Input.LanguagesUsed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.GitLink"></label>
+                <input asp-for="Input.GitLink" class="form-control" />
+                <span asp-validation-for="Input.GitLink" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add new item to portfolio</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Portfolios != null)
+{
+    <div class="row pt-2">
+        @foreach (var item in Model.Portfolios)
+        {
+            if (counter != 0 && counter % 3 == 0)
+            {
+            @:</div>
+            @:<div class="row">
+            }
+            <div class="col-md-4">
+                <center>
+                    <h3>@item.ProjectName</h3>
+                    <h5><a href="@item.DownloadLink" target="_blank">Link to project</a></h5>
+                        <img src="~/images/portfolio/@item.Img" class="w-100 rounded">
+                    <form asp-page-handler="Delete" method="post">
+                        <button onclick="return confirm('Are you sure you want to delete this item from portfolio?')" class="btn btn-danger btn-sm">Delete item</button>
+                        <input type="hidden" name="id" value="@item.Id" />
+                    </form>
+                </center>
+            </div>
+            counter++;
+        }
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

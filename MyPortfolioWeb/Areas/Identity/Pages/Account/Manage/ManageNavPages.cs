@@ -18,6 +18,8 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
         public static string Skills => "Skills";
         public static string Experiences => "Experiences";
         public static string Testimonials => "Testimonials";
+        public static string Awards => "Awards";
+        public static string Portfolios => "Portfolios";
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
@@ -27,7 +29,8 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
         public static string SkillsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Skills);
         public static string ExperiencesClass(ViewContext viewContext) => PageNavClass(viewContext, Experiences);
         public static string TestimonialsClass(ViewContext viewContext) => PageNavClass(viewContext, Testimonials);
-
+        public static string AwardsClass(ViewContext viewContext) => PageNavClass(viewContext, Awards);
+        public static string PortfoliosClass(ViewContext viewContext) => PageNavClass(viewContext, Portfolios);
         private static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string

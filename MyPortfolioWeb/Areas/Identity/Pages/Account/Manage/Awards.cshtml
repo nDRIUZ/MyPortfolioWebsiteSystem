@@ -1,0 +1,76 @@
+﻿@page "/Admin/Awards"
+@model AwardsModel
+@{
+    ViewData["Title"] = "Add/Remove awards/certifications";
+    ViewData["ActivePage"] = ManageNavPages.Awards;
+    var counter = 0;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="welcome-page-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Img"></label>
+                <input asp-for="Input.Img" class="form-control" type="file" />
+                <span asp-validation-for="Input.Img" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Date"></label>
+                <input asp-for="Input.Date" class="form-control" />
+                <span asp-validation-for="Input.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Link"></label>
+                <input asp-for="Input.Link" class="form-control" />
+                <span asp-validation-for="Input.Link" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add new award/experience</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Awards != null)
+{
+    <div class="row pt-2">
+        @foreach (var item in Model.Awards)
+        {
+            if (counter != 0 && counter % 3 == 0)
+            {
+            @:</div>
+            @:<div class="row">
+            }
+                  <div class="col-md-4">
+                      <center>
+                          <h3>@item.Name</h3>
+                          <h5>@item.Date</h5>
+                          <img src="~/images/awards/@item.Img" class="w-100 rounded-circle">
+                      </center>
+                      @if (@item.Link != null)
+                      {
+                          <p>@item.Link</p>
+                      }
+                      <center>
+                          <form asp-page-handler="Delete" method="post">
+                              <button onclick="return confirm('Are you sure you want to delete this award/certification?')" class="btn btn-danger btn-sm">Delete award/certification</button>
+                              <input type="hidden" name="id" value="@item.Id" />
+                          </form>
+                      </center>
+                  </div>
+            counter++;
+        }
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
