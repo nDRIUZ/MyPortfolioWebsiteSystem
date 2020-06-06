@@ -12,7 +12,7 @@ Therefore, I would change quite a lot if I developed it right now.
 Login to admin panel using this link:  
 - yourdomain.com/alogin  
 - Username: **admin**  
-- Password: **@dm1n1stratoR**
+- Password: **@dm1n1stratoR** \
 Or BEFORE MIGRATING DATABASE:
 - Change email, password and username in SeedData.cs in root folder
 
