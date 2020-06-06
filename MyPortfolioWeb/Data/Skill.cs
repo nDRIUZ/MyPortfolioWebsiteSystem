@@ -11,6 +11,6 @@ namespace MyPortfolioWeb.Data
         [Key]
         public int Id { get; set; }
         public string SkillName { get; set; }
-        public int SkillPercentage { get; set; }
+        public string SkillImg { get; set; }
     }
 }

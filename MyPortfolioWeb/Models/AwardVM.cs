@@ -23,4 +23,20 @@ namespace MyPortfolioWeb.Models
         [Display(Name="Link to award/certification website")]
         public string Link { get; set; }
     }
+    public class AwardShowVM
+    {
+        public int Id { get; set; }
+        [Display(Name = "Image of Award/Certification")]
+        [Required]
+        public string Img { get; set; }
+        [Display(Name = "Name of award/certification")]
+        [Required]
+        public string Name { get; set; }
+        [Display(Name = "Date achieved")]
+        [DataType(DataType.Date)]
+        [Required]
+        public DateTime Date { get; set; }
+        [Display(Name = "Link to award/certification website")]
+        public string Link { get; set; }
+    }
 }

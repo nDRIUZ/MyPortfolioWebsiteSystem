@@ -1,82 +1,213 @@
 ﻿@{
     var menu = ViewData["Menu"];
     var menuList = new List<string>();
+    var settings = (List<SettingVM>)ViewData["Settings"];
+    var welcomePage = (List<WelcomePageShowVM>)ViewData["Welcome"];
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyPortfolioWeb</title>
+    <title>
+        @if (settings[0].FullName != null)
+        {
+            @settings[0].FullName
+        } Portfolio |
+        @if (welcomePage[0].WelcomeWorkingTitle != null)
+        {
+            @welcomePage[0].WelcomeWorkingTitle
+        }
+    </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <!-- My FontAwesomeKit integration : Use yours here: -->
+    <script src="https://kit.fontawesome.com/828672a869.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">My Portfolio</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand custom-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    @if (settings[0].FullName != null)
+                    {
+                        var name = settings[0].FullName.Replace(" ", "<br />");
+                        @Html.Raw(name);
+                    }
+                    else
+                    {
+                        @:Name<br />Not<br />Set
+                    }</a>
+                <button class="navbar-toggler my-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                <div class="navbar-collapse collapse flex-grow-1 justify-content-between">
+                    <ul class="navbar-nav mr-auto menu-items">
 
                         @foreach (string menuItem in (dynamic)(menu))
                         {
                             menuList.Add(menuItem);
                         }
 
-                        @if (menuList.Contains("Skills") || menuList.Contains("Experiences"))
+                        @if (menuList.Contains("Skills"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#About">About</a>
+                                <a class="nav-link text-light" href="#Skills">Skills</a>
+                            </li>
+                        }
+                        @if (menuList.Contains("Experiences"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="#Experience">Experience</a>
                             </li>
                         }
                         @if (menuList.Contains("Portfolios"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#Portfolio">Portfolio</a>
+                                <a class="nav-link text-light" href="#Portfolio">Portfolio</a>
                             </li>
                         }
                         @if (menuList.Contains("Awards"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#Awards">Awards and certifications</a>
+                                <a class="nav-link text-light" href="#Awards">Awards and certifications</a>
                             </li>
                         }
                         @if (menuList.Contains("Testimonials"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#Portfolio">Testimonials</a>
+                                <a class="nav-link text-light" href="#Testimonials">Testimonials</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="#Contact">Contact</a>
+                            <a class="nav-link text-light" href="#Contact">Contact</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto social-icons flex-row">
+                        @if (settings[0].LinkedInLink != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@settings[0].LinkedInLink" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </li>
+                        }
+                        @if (settings[0].TwitterLink != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@settings[0].TwitterLink" target="_blank"><i class="fab fa-twitter square"></i></a>
+                            </li>
+                        }
+                        @if (settings[0].FacebookLink != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@settings[0].FacebookLink" target="_blank"><i class="fab fa-facebook"></i></a>
+                            </li>
+                        }
+                        @if (settings[0].InstaLink != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@settings[0].InstaLink" target="_blank"><i class="fab fa-instagram"></i></a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
+        <div class="jumbotron welcome">
+            <div class="container">
+                @if (ViewData["ContactStatus"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        ViewData["ContactStatus"].ToString();
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>Welcome! I'm</h3>
+                        <h1 class="display-4 bold-text">
+                            @if (settings[0].FullName != null)
+                            {@settings[0].FullName }
+                        else
+                        { <text>Name Not Set</text>}
+                        </h1>
+                        <p class="bold-text">
+                            @if (welcomePage[0].WelcomeWorkingTitle != null)
+                            {@welcomePage[0].WelcomeWorkingTitle }
+                        else
+                        { <text>Work title Not Set</text>}
+                        </p>
+                        <p>
+                            @if (welcomePage[0].WelcomeText != null)
+                            {@welcomePage[0].WelcomeText }
+                        else
+                        { <text>Text Not Set</text>}
+                        </p>
+                        @if (settings[0].ResumeLink != null)
+                        {
+                            <a href="@settings[0].ResumeLink" class="btn-primary btn" target="_blank">My Resume</a>
+                        }
+                        <a href="#contact" class="btn-hire-me btn">Hire me</a>
+                    </div>
+                    <div class="col-md-4 d-none d-md-block">
+                        @if (welcomePage[0].Img != null)
+                        {<img class="welcome-image" src="~/images/@welcomePage[0].Img" alt="@if (settings[0].FullName != null) { @settings[0].FullName } Portfolio" /> }
+                        else
+                        { <text>Image Not Set</text>}
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2020 - <a href="http://github.com" target="_blank">MyPortfolioWeb</a> by <a href="http://andriusg.dev" target="_blank">Andrius Gliožeris</a>
+            @if (settings[0].LinkedInLink != null || settings[0].TwitterLink != null || settings[0].FacebookLink != null || settings[0].InstaLink != null)
+            {
+                <div class="social-footer">
+                    <ul class="social-icons-footer">
+                        @if (settings[0].LinkedInLink != null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" href="@settings[0].LinkedInLink" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </li>
+                        }
+                        @if (settings[0].TwitterLink != null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" href="@settings[0].TwitterLink" target="_blank"><i class="fab fa-twitter square"></i></a>
+                            </li>
+                        }
+                        @if (settings[0].FacebookLink != null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" href="@settings[0].FacebookLink" target="_blank"><i class="fab fa-facebook"></i></a>
+                            </li>   
+                        }
+                        @if (settings[0].InstaLink != null)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" href="@settings[0].InstaLink" target="_blank"><i class="fab fa-instagram"></i></a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        <div class="copyright">
+            &copy; 2020 <a href="http://andriusg.dev" target="_blank">Andrius Gliožeris - AndriusG.dev</a>
+        </div> 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        $('.navbar-nav>li>a').on('click', function () {
+            $('.navbar-collapse').collapse('hide');
+        });
+    </script>
 </body>
 </html>

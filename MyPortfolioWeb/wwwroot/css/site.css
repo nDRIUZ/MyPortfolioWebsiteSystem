@@ -7,15 +7,28 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
+  background-color: dodgerblue;
   border-color: #1861ac;
+  font-weight: bold;
+  min-width: 150px;
+}
+
+.btn-primary:hover {
+    border-color: darkblue;
+}
+
+.btn-hire-me {
+    color: #fff;
+    font-weight: bold;
+    border-color: #1861ac;
+    min-width: 150px;
+}
+
+.btn-hire-me:hover {
+    color: darkblue;
+    border-color: darkblue;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -24,8 +37,6 @@ a {
   border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   font-size: 14px;
 }
@@ -51,21 +62,265 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    padding-top: 80px;
+    width: 100%;
+    white-space: nowrap;
+    background: #00A9FE;
+    text-align: center;
+}
+
+.footer-admin {
+    position: absolute;
+    bottom: 0;
+    margin-top: 20px;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.custom-brand {
+    background: #00A9FE;
+    color: white !important;
+    padding: 25px 25px 20px 25px;
+    margin: -25px 0px -20px 0px;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    white-space: nowrap !important;
+    word-break: keep-all;
+}
+
+.navbar {
+    background: transparent;
+    white-space: nowrap !important;
+    word-break: keep-all;
+    font-weight: bold;
+}
+
+.social-icons {
+    font-size: 1.5em;
+}
+
+.navbar .fa-facebook {
+    color: white;
+}
+
+.navbar .fa-facebook:hover {
+    color: dodgerblue;
+}
+.navbar .fa-twitter {
+    color: white;
+}
+
+.navbar .fa-twitter:hover {
+    color: dodgerblue;
+}
+.navbar .fa-instagram {
+    color: white;
+}
+
+.navbar .fa-instagram:hover {
+    color: dodgerblue;
+}
+.navbar .fa-linkedin {
+    color: white;
+}
+
+.navbar .fa-linkedin:hover {
+    color: dodgerblue;
+}
+@media (max-width: 968px) {
+    .social-icons > li {
+        padding-right: 15px;
+    }
+    .collapse {
+        padding-top: 20px;
+    }
+}
+
+.social footer {
+    padding: 0;
+    margin: 0;
+}
+
+.social-icons-footer {
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    list-style: none;
+    list-style-type: none;
+}
+
+.social-icons-footer > li {
+    float: left;
+}
+
+.social-icons-footer .fa-facebook {
+    color: white;
+}
+
+.social-icons-footer .fa-facebook:hover {
+    color: white;
+}
+
+.social-icons-footer .fa-twitter {
+    color: white;
+}
+
+.social-icons-footer .fa-twitter:hover {
+        color: white;
+    }
+
+.social-icons-footer .fa-instagram {
+    color: white;
+}
+
+.social-icons-footer .fa-instagram:hover {
+        color: white;
+    }
+
+.social-icons-footer .fa-linkedin {
+    color: white;
+}
+
+.social-icons-footer .fa-linkedin:hover {
+        color: white;
+}
+
+.copyright {
+    color: white;
+    padding: 15px 0 15px 0;
+}
+
+.copyright a:link {
+    color: white;
+    text-decoration: none;
+}
+
+.copyright a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.copyright a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.welcome {
+    background: transparent;
+    color: white;
+}
+
+.header {
+    background: url('../images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.menu-items a:hover {
+    color: dodgerblue !important;
+}
+
+.bold-text {
+    font-weight: bold; 
+}
+
+.welcome h1 {
+    margin-top: -0.4em;
+    margin-bottom: -0.2em;
+    color: black;
+}
+
+.welcome-image {
+    max-width: 100%;
+}
+
+.my-toggler.navbar-toggler {
+    border-color: dodgerblue;
+}
+
+.my-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(30, 144, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.skills {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.experience {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.skill-name {
+    margin-bottom: 0rem;
+}
+
+.progress {
+    height: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.grey-background {
+    padding-top: 20px;
+    background: #e5e5e5;
+    padding-bottom: 20px;
+}
+
+.work-tab {
+    background: white;
+    margin: 0 10px 10px 10px;
+    border-radius: 5px;
+    box-shadow: 4px 4px rgba(0, 0, 0, .05);
+}
+
+.date-exp {
+    margin: 0 0 0 0;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.work-tab h5 {
+    color: darkblue;
+}
+
+.portfolio {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.awards {
+    padding-top: 20px;
+}
+
+.testimonial {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 0 1.25rem 0 1.25rem;
+}
+
+.card {
+    border-color: transparent;
+}
+
+.contact {
+    background-color: white;
+    margin-bottom: -50px;
+    padding: 15px;
+    border-radius: 15px;
 }

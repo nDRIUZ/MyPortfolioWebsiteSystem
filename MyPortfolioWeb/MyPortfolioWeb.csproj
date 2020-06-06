@@ -20,6 +20,7 @@
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\awards\" />
+    <Folder Include="wwwroot\images\skills\" />
     <Folder Include="wwwroot\images\portfolio\" />
     <Folder Include="wwwroot\images\testimonials\" />
     <Folder Include="wwwroot\js\" />

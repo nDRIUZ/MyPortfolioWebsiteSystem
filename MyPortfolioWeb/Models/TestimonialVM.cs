@@ -22,4 +22,20 @@ namespace MyPortfolioWeb.Models
         [Display(Name="Photo")]
         public IFormFile Img { get; set; }
     }
+
+    public class TestimonialShowVM
+    {
+        public int Id { get; set; }
+        [Display(Name = "Full name")]
+        [Required]
+        public string Name { get; set; }
+        [Display(Name = "Testimonial")]
+        [Required]
+        public string Text { get; set; }
+        [Display(Name = "Date written")]
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+        [Display(Name = "Photo")]
+        public string Img { get; set; }
+    }
 }

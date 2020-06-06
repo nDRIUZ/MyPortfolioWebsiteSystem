@@ -19,9 +19,9 @@
                 <span asp-validation-for="Input.SkillName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.SkillPercentage"></label>
-                <input asp-for="Input.SkillPercentage" class="form-control" />
-                <span asp-validation-for="Input.SkillPercentage" class="text-danger"></span>
+                <label asp-for="Input.SkillImg"></label>
+                <input asp-for="Input.SkillImg" type="file" class="form-control" />
+                <span asp-validation-for="Input.SkillImg" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Add skill</button>
         </form>
@@ -30,18 +30,16 @@
 
 @if (Model.Skills != null)
 {
-<div class="row pt-2">
+<div class="row pt-2 text-center">
     @foreach (var item in Model.Skills)
     {
-        if (counter != 0 && counter % 3 == 0)
+        if (counter != 0 && counter % 4 == 0)
         {
         @:</div>
-        @:<div class="row">
+        @:<div class="row text-center">
         }
-              <div class="col-md-4">
-                  <div class="progress">
-                      <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @item.SkillPercentage%" aria-valuenow="@item.SkillPercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
+              <div class="col-md-3">
+                  <img src="~/images/skills/@item.SkillImg" class="w-25">
                   <p>
                       @item.SkillName
                       <form asp-page-handler="Delete" method="post">

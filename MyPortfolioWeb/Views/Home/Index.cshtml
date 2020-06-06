@@ -1,7 +1,239 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var settings = (List<SettingVM>)ViewData["Settings"];
+    var skills = (List<SkillShowVM>)ViewData["Skills"];
+    var awards = (List<AwardShowVM>)ViewData["Awards"];
+    var experiences = (List<ExperienceVM>)ViewData["Experiences"];
+    var portfolio = (List<PortfolioShowVM>)ViewData["Portfolio"];
+    var testimonial = (List<TestimonialShowVM>)ViewData["Testimonials"];
+    var awardCounter = 0;
+    var testimonialCounter = 0;
+    var skillCounter = 0;
+    var expCounter = 0;
+    var workCounter = 0;
 }
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model ContactVM 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+            $("#skills-toggle").click(function () {
+                    $(this).hide();
+                    for (var i = 4; i < @skillCounter; i++) {
+                        $("#skill-" + i).removeClass("hidden");
+                    }
+            });
+        $("#portfolio-toggle").click(function () {
+                    $(this).hide();
+                    for (var i = 3; i < @workCounter; i++) {
+                        $("#work-" + i).removeClass("hidden");
+                    }
+        });
+        $("#awards-toggle").click(function () {
+                    $(this).hide();
+                    for (var i = 4; i < @awardCounter; i++) {
+                        $("#award-" + i).removeClass("hidden");
+                    }
+        });
+        $("#testimonials-toggle").click(function () {
+                    $(this).hide();
+                    for (var i = 3; i < @testimonialCounter; i++) {
+                        $("#testimonial-" + i).removeClass("hidden");
+                    }
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="skills text-center" id="Skills">
+        <h2>Skills</h2>
+        <p>
+            Below is a quick overview of my main technical skills and tools I use.<br /> @if (settings[0].ResumeLink != null)
+            {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+        </p>
+        <div class="row justify-content-center">
+            @foreach (var skillItem in skills)
+            {
+                var isHidden = skillCounter;
+                if (skillCounter != 0 && skillCounter % 4 == 0)
+                {
+                @:</div>
+                @:<div class="row justify-content-center">
+                }
+                <div class="col-md-3 pt-1 @if (isHidden > 3) {<text>hidden</text>} " id="skill-@skillCounter">
+                    <img src="~/images/skills/@skillItem.SkillImg" alt="@skillItem.SkillName" class="w-25" />
+                    @skillItem.SkillName
+                </div>
+                skillCounter++;
+            }
+        </div>
+        @if (skills.Count > 4)
+        {
+            @:<button class="btn btn-primary mt-2 show" id="skills-toggle">Show all skills</button>
+        }
+    </div>
+</div>
+
+<div class="grey-background">
+    <div class="experience text-center container" id="Experience">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>My experience</h2>
+                <p>
+                    Below is my recent experience. @if (experiences.Count != 0)
+                    {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+                </p>
+            </div>
+            <div class="col-md-8">
+                <div class="row justify-content-center">
+                    @foreach (var expItem in experiences)
+                    {
+                        var isHidden = expCounter;
+                        if (expCounter != 0 && expCounter % 2 == 0)
+                        {
+                        @:</div>
+                        @:<div class="row justify-content-center">
+                        }
+                        @if (isHidden < 4)
+                        {
+                            <div class="col-md-5 pt-1 work-tab text-left" id="skill-@expCounter">
+                                <h5 class="mb-0">@experiences[expCounter].JobTitle</h5>
+                                <p class="bold-text mb-0 font-italic">@experiences[expCounter].CompanyName</p>
+                                <p class="date-exp">
+                                    @experiences[expCounter].StartDate.ToShortDateString() - @if (experiences[expCounter].Current)
+                                {<text>current</text> }
+                            else
+                            { @experiences[expCounter].EndDate.ToShortDateString()}
+                                </p>
+                                <p>@experiences[expCounter].Description</p>
+                            </div>
+                        }
+                        expCounter++;
+                    }
+                </div>
+            </div>
+            <div class="col-md-4 d-none d-md-block mt-auto">
+                <img src="~/images/experience-bg.png" class="w-100" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container portfolio text-center" id="Portfolio">
+            <h2>My work</h2>
+
+            <div class="row justify-content-center">
+                @foreach (var workItem in portfolio)
+                {
+                    var isHidden = workCounter;
+                    if (workCounter != 0 && workCounter % 3 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row justify-content-center">
+                    }
+                          <div class="col-md-3 pt-1 @if (isHidden > 2) {<text>hidden</text>}" id="work-@workCounter">
+                              <a href="@workItem.DownloadLink">
+                                  <div class="card" style="width: 100%;">
+                                      <img class="card-img-top" src="~/images/portfolio/@workItem.Img" alt="@workItem.ProjectName">
+                                      <div class="card-body">
+                                          <h5 class="card-title">@workItem.ProjectName</h5>
+                                      </div>
+                                  </div>
+                              </a>
+                          </div>
+                    workCounter++;
+                }
+            </div>
+            @if (portfolio.Count > 4)
+            {
+                @:<button class="btn btn-primary mt-2 show" id="portfolio-toggle">Show all work</button>
+            }
+</div>
+
+<div class="grey-background">
+    <div class="container awards text-center" id="Awards">
+        <h2>Awards and Certifications</h2>
+        <p>
+            Below are my achievements, awards and certifications .<br /> @if (settings[0].ResumeLink != null)
+            {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+        </p>
+        <div class="row justify-content-center">
+            @foreach (var awardItem in awards)
+            {
+                var isHidden = awardCounter;
+                if (awardCounter != 0 && awardCounter % 4 == 0)
+                {
+                @:</div>
+                @:<div class="row justify-content-center">
+                }
+                <div class="col-md-3 pt-1 @if (isHidden > 3) {<text>hidden</text>} " id="award-@awardCounter">
+                    <a href="@awardItem.Link">
+                        <img src="~/images/awards/@awardItem.Img" alt="@awardItem.Name" class="w-25" />
+                        <h5>@awardItem.Name</h5>
+                    </a>
+                    <p class="margin-minus">@awardItem.Date.ToShortDateString()</p>
+                </div>
+                awardCounter++;
+            }
+        </div>
+        @if (awards.Count > 4)
+        {
+            @:<button class="btn btn-primary mt-2 show" id="awards-toggle">Show all awards and certifications</button>
+        }
+    </div>
+</div>
+
+<div class="container testimonial text-center" id="Testimonials">
+    <h2>Testimonials</h2>
+    <div class="row justify-content-center">
+        @foreach (var testimonialItem in testimonial)
+        {
+            var isHidden = testimonialCounter;
+            if (testimonialCounter != 0 && testimonialCounter % 3 == 0)
+            {
+            @:</div>
+            @:<div class="row justify-content-center">
+            }
+            <div class="col-md-3 pt-1 @if (isHidden > 2) {<text>hidden</text>} " id="testimonial-@testimonialCounter">
+                
+                    <div class="card" style="width: 100%;">
+                        <img class="card-img-top" src="~/images/testimonials/@testimonialItem.Img" alt="@testimonialItem.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@testimonialItem.Name</h5>
+                            <p class="date-exp">@testimonialItem.Date.ToShortDateString()</p>
+                            <p>@testimonialItem.Text</p>
+                        </div>
+                    </div>
+            </div>
+            testimonialCounter++;
+        }
+    </div>
+    @if (testimonial.Count > 3)
+    {
+        @:<button class="btn btn-primary mt-2 show" id="testimonials-toggle">Show all</button>
+    }
+</div>
+
+<div class="container" id="Contact">
+    <div class="col-md-6 offset-3 contact">
+        <h4 class="text-center">Send me a message</h4>
+        <form id="contact-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text"></label>
+                <textarea rows="5" asp-for="Text" class="form-control"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary text-center">Send</button>
+        </form>
+    </div>
 </div>

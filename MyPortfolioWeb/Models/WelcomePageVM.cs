@@ -19,4 +19,16 @@ namespace MyPortfolioWeb.Models
         [Required]
         public string WelcomeText { get; set; }
     }
+    public class WelcomePageShowVM
+    {
+        public int Id { get; set; }
+        [Display(Name = "Background Image")]
+        public string Img { get; set; }
+        [Display(Name = "Your job title")]
+        [Required]
+        public string WelcomeWorkingTitle { get; set; }
+        [Display(Name = "Short text about you")]
+        [Required]
+        public string WelcomeText { get; set; }
+    }
 }

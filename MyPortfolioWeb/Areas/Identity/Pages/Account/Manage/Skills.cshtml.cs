@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,21 +20,24 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ISkillRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public SkillsModel(
             UserManager<IdentityUser> userManager,
             ISkillRepository repo,
-            IMapper mapper)
+            IMapper mapper,
+            IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _repo = repo;
             _mapper = mapper;
+            webHostEnvironment = hostEnvironment;
         }
 
         [BindProperty]
         public SkillVM Input { get; set; }
 
-        public IOrderedEnumerable<Skill> Skills { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -41,10 +47,9 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
             var getAll = await _repo.FindAll();
             if (getAll.Count > 0)
             {
-                var sendAll = getAll.OrderByDescending(p => p.SkillPercentage);
-                if (sendAll != null)
+                if (getAll != null)
                 {
-                    Skills = sendAll;
+                    Skills = getAll;
                 }
             }
         }
@@ -75,7 +80,29 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
             }
 
                     var createInfo = _mapper.Map<Skill>(Input);
-                    var CreatedSuccess = await _repo.Create(createInfo);
+
+            if (Input.SkillImg != null)
+            {
+                var getAll = await _repo.FindAll();
+                var getCount = getAll.Count();
+                string ext = System.IO.Path.GetExtension(Input.SkillImg.FileName);
+                if (ext.ToLower() != ".jpg" && ext.ToLower() != ".png" && ext.ToLower() != ".jpeg")
+                {
+                    StatusMessage = "Only image files are allowed(.jpg, .jpeg and .png)";
+                    return Page();
+                }
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images/skills");
+                var newFileName = getCount++ + ext;
+                string filePath = Path.Combine(uploadsFolder, newFileName);
+                using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                Input.SkillImg.CopyTo(fileStream);
+                createInfo.SkillImg = newFileName;
+            }
+            else
+            {
+                createInfo.SkillName = null;
+            }
+            var CreatedSuccess = await _repo.Create(createInfo);
                     if (!CreatedSuccess)
                     {
                         throw new InvalidOperationException($"Unexpected error occurred while adding changes.");

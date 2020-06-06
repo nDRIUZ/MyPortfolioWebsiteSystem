@@ -101,7 +101,7 @@ namespace MyPortfolioWeb.Areas.Identity.Pages.Account.Manage
                 createInfo.Img = newFileName;
             } else
                 {
-                    createInfo.Img = null;
+                    createInfo.Img = "default.png";
                 }
             
             var CreatedSuccess = await _repo.Create(createInfo);
