@@ -12,8 +12,16 @@
     var expCounter = 0;
     var workCounter = 0;
 }
-@model ContactVM 
+@model ContactVM
 @section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_API_KEY"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('YOUR_SITE_API_KEY', { action: 'Index' }).then(function (token) {
+                document.getElementById("gcaptcha").value = token;
+            });
+        });
+    </script>
     <partial name="_ValidationScriptsPartial" />
     <script>
             $("#skills-toggle").click(function () {
@@ -43,72 +51,77 @@
     </script>
 }
 
+@if (skills.Count > 0)
+{
 <div class="container">
     <div class="skills text-center" id="Skills">
         <h2>Skills</h2>
         <p>
-            Below is a quick overview of my main technical skills and tools I use.<br /> @if (settings[0].ResumeLink != null)
-            {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+            Below is a quick overview of my main technical skills and tools I use.<br /> @if (settings.Count > 0 && settings[0].ResumeLink != null)
+                {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
         </p>
         <div class="row justify-content-center">
             @foreach (var skillItem in skills)
-            {
-                var isHidden = skillCounter;
-                if (skillCounter != 0 && skillCounter % 4 == 0)
                 {
-                @:</div>
-                @:<div class="row justify-content-center">
+                    var isHidden = skillCounter;
+                    if (skillCounter != 0 && skillCounter % 4 == 0)
+                    {
+        @:</div>
+        @:<div class="row justify-content-center">
+                    }
+            <div class="col-md-3 pt-1 @if (isHidden > 3) {<text>hidden</text>} " id="skill-@skillCounter">
+                <img src="~/images/skills/@skillItem.SkillImg" alt="@skillItem.SkillName" class="w-25" />
+                @skillItem.SkillName
+            </div>
+                    skillCounter++;
                 }
-                <div class="col-md-3 pt-1 @if (isHidden > 3) {<text>hidden</text>} " id="skill-@skillCounter">
-                    <img src="~/images/skills/@skillItem.SkillImg" alt="@skillItem.SkillName" class="w-25" />
-                    @skillItem.SkillName
-                </div>
-                skillCounter++;
-            }
         </div>
         @if (skills.Count > 4)
-        {
-            @:<button class="btn btn-primary mt-2 show" id="skills-toggle">Show all skills</button>
-        }
+            {
+        @:<button class="btn btn-primary mt-2 show" id="skills-toggle">Show all skills</button>
+            }
     </div>
 </div>
+}
 
+@if (experiences.Count > 0)
+{
 <div class="grey-background">
     <div class="experience text-center container" id="Experience">
         <div class="row">
             <div class="col-md-12">
                 <h2>My experience</h2>
                 <p>
-                    Below is my recent experience. @if (experiences.Count != 0)
-                    {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+                    Below is my recent experience. @if (settings.Count > 0 && settings[0].ResumeLink != null)
+                        {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
                 </p>
             </div>
             <div class="col-md-8">
                 <div class="row justify-content-center">
                     @foreach (var expItem in experiences)
-                    {
-                        var isHidden = expCounter;
-                        if (expCounter != 0 && expCounter % 2 == 0)
                         {
-                        @:</div>
-                        @:<div class="row justify-content-center">
+                            var isHidden = expCounter;
+                            if (expCounter != 0 && expCounter % 2 == 0)
+                            {
+                @:</div>
+                @:<div class="row justify-content-center">
+                            }
+                    @if (isHidden < 4)
+                            {
+                    <div class="col-md-5 pt-1 work-tab text-left" id="skill-@expCounter">
+                        <h5 class="mb-0">@experiences[expCounter].JobTitle</h5>
+                        <p class="bold-text mb-0 font-italic">@experiences[expCounter].CompanyName</p>
+                        <p class="date-exp">
+                            @experiences[expCounter].StartDate.ToShortDateString() - @if (experiences[expCounter].Current)
+                                        {<text>current</text> }
+                                    else
+                                    { @experiences[expCounter].EndDate.ToShortDateString()}
+                        </p>
+                        <p>@experiences[expCounter].Description</p>
+                    </div>
+                            }
+                            expCounter++;
                         }
-                        @if (isHidden < 4)
-                        {
-                            <div class="col-md-5 pt-1 work-tab text-left" id="skill-@expCounter">
-                                <h5 class="mb-0">@experiences[expCounter].JobTitle</h5>
-                                <p class="bold-text mb-0 font-italic">@experiences[expCounter].CompanyName</p>
-                                <p class="date-exp">
-                                    @experiences[expCounter].StartDate.ToShortDateString() - @if (experiences[expCounter].Current)
-                                {<text>current</text> }
-                            else
-                            { @experiences[expCounter].EndDate.ToShortDateString()}
-                                </p>
-                                <p>@experiences[expCounter].Description</p>
-                            </div>
-                        }
-                        expCounter++;
-                    }
                 </div>
             </div>
             <div class="col-md-4 d-none d-md-block mt-auto">
@@ -117,122 +130,148 @@
         </div>
     </div>
 </div>
+}
 
+@if (portfolio.Count > 0)
+{
 <div class="container portfolio text-center" id="Portfolio">
-            <h2>My work</h2>
+    <h2>My work</h2>
 
-            <div class="row justify-content-center">
-                @foreach (var workItem in portfolio)
-                {
-                    var isHidden = workCounter;
-                    if (workCounter != 0 && workCounter % 3 == 0)
-                    {
-                    @:</div>
-                    @:<div class="row justify-content-center">
-                    }
-                          <div class="col-md-3 pt-1 @if (isHidden > 2) {<text>hidden</text>}" id="work-@workCounter">
-                              <a href="@workItem.DownloadLink">
-                                  <div class="card" style="width: 100%;">
-                                      <img class="card-img-top" src="~/images/portfolio/@workItem.Img" alt="@workItem.ProjectName">
-                                      <div class="card-body">
-                                          <h5 class="card-title">@workItem.ProjectName</h5>
-                                      </div>
-                                  </div>
-                              </a>
-                          </div>
-                    workCounter++;
-                }
-            </div>
-            @if (portfolio.Count > 4)
+    <div class="row justify-content-center">
+        @foreach (var workItem in portfolio)
             {
-                @:<button class="btn btn-primary mt-2 show" id="portfolio-toggle">Show all work</button>
+                var isHidden = workCounter;
+                if (workCounter != 0 && workCounter % 3 == 0)
+                {
+    @:</div>
+    @:<div class="row justify-content-center">
+                }
+        <div class="col-md-3 pt-1 @if (isHidden > 2)
+                {<text>hidden</text>}" id="work-@workCounter">
+            <a href="@workItem.DownloadLink">
+                <div class="card" style="width: 100%;">
+                    <img class="card-img-top" src="~/images/portfolio/@workItem.Img" alt="@workItem.ProjectName">
+                    <div class="card-body">
+                        <h5 class="card-title">@workItem.ProjectName</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+                workCounter++;
             }
+    </div>
+    @if (portfolio.Count > 4)
+        {
+    @:<button class="btn btn-primary mt-2 show" id="portfolio-toggle">Show all work</button>
+        }
 </div>
+}
 
+@if (awards.Count > 0)
+{
 <div class="grey-background">
     <div class="container awards text-center" id="Awards">
         <h2>Awards and Certifications</h2>
         <p>
-            Below are my achievements, awards and certifications .<br /> @if (settings[0].ResumeLink != null)
-            {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
+            Below are my achievements, awards and certifications .<br /> @if (settings.Count > 0 && settings[0].ResumeLink != null)
+                {<text>Want to find out more about my experience? <a href="@settings[0].ResumeLink">Check out my resume</a> </text>}
         </p>
         <div class="row justify-content-center">
             @foreach (var awardItem in awards)
-            {
-                var isHidden = awardCounter;
-                if (awardCounter != 0 && awardCounter % 4 == 0)
                 {
-                @:</div>
-                @:<div class="row justify-content-center">
+                    var isHidden = awardCounter;
+                    if (awardCounter != 0 && awardCounter % 4 == 0)
+                    {
+        @:</div>
+        @:<div class="row justify-content-center">
+                    }
+            <div class="col-md-3 pt-1 @if (isHidden > 3)
+                    {<text>hidden</text>} " id="award-@awardCounter">
+                <a href="@awardItem.Link">
+                    <img src="~/images/awards/@awardItem.Img" alt="@awardItem.Name" class="w-25" />
+                    <h5>@awardItem.Name</h5>
+                </a>
+                <p class="margin-minus">@awardItem.Date.ToShortDateString()</p>
+            </div>
+                    awardCounter++;
                 }
-                <div class="col-md-3 pt-1 @if (isHidden > 3) {<text>hidden</text>} " id="award-@awardCounter">
-                    <a href="@awardItem.Link">
-                        <img src="~/images/awards/@awardItem.Img" alt="@awardItem.Name" class="w-25" />
-                        <h5>@awardItem.Name</h5>
-                    </a>
-                    <p class="margin-minus">@awardItem.Date.ToShortDateString()</p>
-                </div>
-                awardCounter++;
-            }
         </div>
         @if (awards.Count > 4)
-        {
-            @:<button class="btn btn-primary mt-2 show" id="awards-toggle">Show all awards and certifications</button>
-        }
+            {
+        @:<button class="btn btn-primary mt-2 show" id="awards-toggle">Show all awards and certifications</button>
+            }
     </div>
 </div>
+}
 
+@if (testimonial.Count > 0)
+{
 <div class="container testimonial text-center" id="Testimonials">
     <h2>Testimonials</h2>
     <div class="row justify-content-center">
         @foreach (var testimonialItem in testimonial)
-        {
-            var isHidden = testimonialCounter;
-            if (testimonialCounter != 0 && testimonialCounter % 3 == 0)
             {
-            @:</div>
-            @:<div class="row justify-content-center">
-            }
-            <div class="col-md-3 pt-1 @if (isHidden > 2) {<text>hidden</text>} " id="testimonial-@testimonialCounter">
-                
-                    <div class="card" style="width: 100%;">
-                        <img class="card-img-top" src="~/images/testimonials/@testimonialItem.Img" alt="@testimonialItem.Name">
-                        <div class="card-body">
-                            <h5 class="card-title">@testimonialItem.Name</h5>
-                            <p class="date-exp">@testimonialItem.Date.ToShortDateString()</p>
-                            <p>@testimonialItem.Text</p>
-                        </div>
-                    </div>
+                var isHidden = testimonialCounter;
+                if (testimonialCounter != 0 && testimonialCounter % 3 == 0)
+                {
+    @:</div>
+    @:<div class="row justify-content-center">
+                }
+        <div class="col-md-3 pt-1 @if (isHidden > 2)
+                {<text>hidden</text>} " id="testimonial-@testimonialCounter">
+
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="~/images/testimonials/@testimonialItem.Img" alt="@testimonialItem.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@testimonialItem.Name</h5>
+                    <p class="date-exp">@testimonialItem.Date.ToShortDateString()</p>
+                    <p>@testimonialItem.Text</p>
+                </div>
             </div>
-            testimonialCounter++;
-        }
+        </div>
+                testimonialCounter++;
+            }
     </div>
     @if (testimonial.Count > 3)
-    {
-        @:<button class="btn btn-primary mt-2 show" id="testimonials-toggle">Show all</button>
-    }
+        {
+    @:<button class="btn btn-primary mt-2 show" id="testimonials-toggle">Show all</button>
+        }
 </div>
+}
 
 <div class="container" id="Contact">
-    <div class="col-md-6 offset-3 contact">
+    <div class="col-md-6 offset-md-3 contact">
         <h4 class="text-center">Send me a message</h4>
         <form id="contact-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name"></label>
+                @if (ViewBag.Name != null) {
+                    <input asp-for="Name" class="form-control" value="@ViewBag.Name" />
+                } else {
                 <input asp-for="Name" class="form-control" />
+                }
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
+                @if (ViewBag.Email != null) {
+                <input asp-for="Email" class="form-control" value="@ViewBag.Email" />
+                } else {
                 <input asp-for="Email" class="form-control" />
+                }
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Text"></label>
-                <textarea rows="5" asp-for="Text" class="form-control"></textarea>
+                @if (ViewBag.Text != null) {
+                    <textarea rows="5" asp-for="Text" class="form-control" value="@ViewBag.Text"></textarea>
+                } else {
+                    <textarea rows="5" asp-for="Text" class="form-control"></textarea>
+                }
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
+            <input type="hidden" id="gcaptcha" name="gcaptcha" />
             <button type="submit" class="btn btn-primary text-center">Send</button>
         </form>
     </div>

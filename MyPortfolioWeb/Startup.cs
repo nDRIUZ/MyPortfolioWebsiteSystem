@@ -77,8 +77,6 @@ namespace MyPortfolioWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            // Calling seed class
             SeedData.Seed(userManager);
 
             app.UseEndpoints(endpoints =>

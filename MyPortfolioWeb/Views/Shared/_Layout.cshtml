@@ -10,11 +10,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-        @if (settings[0].FullName != null)
+        @if (settings.Count > 0 && settings[0].FullName != null)
         {
             @settings[0].FullName
         } Portfolio |
-        @if (welcomePage[0].WelcomeWorkingTitle != null)
+        @if (welcomePage.Count > 0 && welcomePage[0].WelcomeWorkingTitle != null)
         {
             @welcomePage[0].WelcomeWorkingTitle
         }
@@ -29,7 +29,7 @@
         <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light mb-3">
             <div class="container">
                 <a class="navbar-brand custom-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    @if (settings[0].FullName != null)
+                    @if (settings.Count > 0 && settings[0].FullName != null)
                     {
                         var name = settings[0].FullName.Replace(" ", "<br />");
                         @Html.Raw(name);
@@ -85,25 +85,25 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto social-icons flex-row">
-                        @if (settings[0].LinkedInLink != null)
+                        @if (settings.Count > 0 && settings[0].LinkedInLink != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@settings[0].LinkedInLink" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </li>
                         }
-                        @if (settings[0].TwitterLink != null)
+                        @if (settings.Count > 0 && settings[0].TwitterLink != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@settings[0].TwitterLink" target="_blank"><i class="fab fa-twitter square"></i></a>
                             </li>
                         }
-                        @if (settings[0].FacebookLink != null)
+                        @if (settings.Count > 0 && settings[0].FacebookLink != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@settings[0].FacebookLink" target="_blank"><i class="fab fa-facebook"></i></a>
                             </li>
                         }
-                        @if (settings[0].InstaLink != null)
+                        @if (settings.Count > 0 && settings[0].InstaLink != null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@settings[0].InstaLink" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -115,41 +115,47 @@
         </nav>
         <div class="jumbotron welcome">
             <div class="container">
-                @if (ViewData["ContactStatus"] != null)
+                @if (ViewBag.ContactStatus != null && ViewBag.ContactStatus == "Message sent! I will get in touch soon!")
                 {
                     <div class="alert alert-success" role="alert">
-                        ViewData["ContactStatus"].ToString();
+                        @ViewBag.ContactStatus.ToString();
+                    </div>
+                }
+                else if (ViewBag.ContactStatus != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewBag.ContactStatus.ToString();
                     </div>
                 }
                 <div class="row">
                     <div class="col-md-8">
                         <h3>Welcome! I'm</h3>
                         <h1 class="display-4 bold-text">
-                            @if (settings[0].FullName != null)
+                            @if (settings.Count > 0 && settings[0].FullName != null)
                             {@settings[0].FullName }
                         else
                         { <text>Name Not Set</text>}
                         </h1>
                         <p class="bold-text">
-                            @if (welcomePage[0].WelcomeWorkingTitle != null)
+                            @if (welcomePage.Count > 0 && welcomePage[0].WelcomeWorkingTitle != null)
                             {@welcomePage[0].WelcomeWorkingTitle }
                         else
                         { <text>Work title Not Set</text>}
                         </p>
                         <p>
-                            @if (welcomePage[0].WelcomeText != null)
+                            @if (welcomePage.Count > 0 && welcomePage[0].WelcomeText != null)
                             {@welcomePage[0].WelcomeText }
                         else
                         { <text>Text Not Set</text>}
                         </p>
-                        @if (settings[0].ResumeLink != null)
+                        @if (settings.Count > 0 && settings[0].ResumeLink != null)
                         {
                             <a href="@settings[0].ResumeLink" class="btn-primary btn" target="_blank">My Resume</a>
                         }
-                        <a href="#contact" class="btn-hire-me btn">Hire me</a>
+                        <a href="#Contact" class="btn-hire-me btn">Hire me</a>
                     </div>
                     <div class="col-md-4 d-none d-md-block">
-                        @if (welcomePage[0].Img != null)
+                        @if (welcomePage.Count > 0 && welcomePage[0].Img != null)
                         {<img class="welcome-image" src="~/images/@welcomePage[0].Img" alt="@if (settings[0].FullName != null) { @settings[0].FullName } Portfolio" /> }
                         else
                         { <text>Image Not Set</text>}
@@ -164,29 +170,29 @@
 
     <footer class="footer text-muted">
         <div class="container">
-            @if (settings[0].LinkedInLink != null || settings[0].TwitterLink != null || settings[0].FacebookLink != null || settings[0].InstaLink != null)
+            @if (settings.Count > 0)
             {
                 <div class="social-footer">
                     <ul class="social-icons-footer">
-                        @if (settings[0].LinkedInLink != null)
+                        @if (settings.Count > 0 && settings[0].LinkedInLink != null)
                         {
                             <li>
                                 <a class="nav-link text-dark" href="@settings[0].LinkedInLink" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </li>
                         }
-                        @if (settings[0].TwitterLink != null)
+                        @if (settings.Count > 0 && settings[0].TwitterLink != null)
                         {
                             <li>
                                 <a class="nav-link text-dark" href="@settings[0].TwitterLink" target="_blank"><i class="fab fa-twitter square"></i></a>
                             </li>
                         }
-                        @if (settings[0].FacebookLink != null)
+                        @if (settings.Count > 0 && settings[0].FacebookLink != null)
                         {
                             <li>
                                 <a class="nav-link text-dark" href="@settings[0].FacebookLink" target="_blank"><i class="fab fa-facebook"></i></a>
                             </li>   
                         }
-                        @if (settings[0].InstaLink != null)
+                        @if (settings.Count > 0 && settings[0].InstaLink != null)
                         {
                             <li>
                                 <a class="nav-link text-dark" href="@settings[0].InstaLink" target="_blank"><i class="fab fa-instagram"></i></a>
