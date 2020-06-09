@@ -120,7 +120,7 @@ namespace MyPortfolioWeb.Controllers
             {
                 if (!ReCaptchaPassed(HttpContext.Request.Form["gcaptcha"]))
                 {
-                    TempData["contactStatus"] = "Aren't you a robot? If not - email me at YOUREMAIL@MAIL.com";
+                    TempData["contactStatus"] = "Aren't you a robot? If not - email me at admin@admin.com";
                     return RedirectToAction("Index");
                 } else {
                     try
@@ -130,11 +130,11 @@ namespace MyPortfolioWeb.Controllers
                         client.EnableSsl = true;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
                         client.UseDefaultCredentials = false;
-                        client.Credentials = new NetworkCredential("YOUR@gmail.com", "YourPassword");
+                        client.Credentials = new NetworkCredential("your@gmail.com", "YOUR_PASS");
 
                         MailMessage mailMessage = new MailMessage();
                         mailMessage.From = new MailAddress(Input.Email);
-                        mailMessage.To.Add("EMAILTOSENDFORM@gmail.com");
+                        mailMessage.To.Add("EMAIL TO SEND CONTACT FORM TO");
                         mailMessage.Body = Input.Text;
                         mailMessage.Subject = Input.Name + " - " + Input.Email;
                         await client.SendMailAsync(mailMessage);
@@ -142,9 +142,9 @@ namespace MyPortfolioWeb.Controllers
                         ModelState.Clear();
                         TempData["contactStatus"] = "Message sent! I will get in touch soon!";
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        TempData["contactStatus"] = "Unknown error :( Please contact me at YOUREMAIL@MAIL.com";
+                        TempData["contactStatus"] = "Unknown error :( Please contact me at admin@admin.com";
                         TempData["Name"] = Input.Name;
                         TempData["Email"] = Input.Email;
                         TempData["Text"] = Input.Text;
@@ -158,7 +158,7 @@ namespace MyPortfolioWeb.Controllers
         public static bool ReCaptchaPassed(string gRecaptchaResponse)
         {
             HttpClient httpClient = new HttpClient();
-            var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=YOUR_SECRET_API_KEY&response={gRecaptchaResponse}").Result;
+            var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=YOUR_SECRET_KEY&response={gRecaptchaResponse}").Result;
             if (res.StatusCode != HttpStatusCode.OK)
                 return false;
 
